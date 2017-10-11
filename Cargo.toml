@@ -4,3 +4,5 @@ version = "0.1.0"
 authors = ["davidpdrsn"]
 
 [dependencies]
+instant-replay = { git = "https://github.com/tonsser/instant-replay.git" }
+postgres = { version = "0.15", features = ["with-openssl"] }
