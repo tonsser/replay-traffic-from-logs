@@ -59,15 +59,17 @@ impl AccessTokenLoader for LoadAccessTokenFromDatabase {
 }
 
 fn main() {
-    let duration = Duration::from_secs(60);
+    println!("Hello, World!");
 
-    InstantReplay {
-        access_token_loader: LoadAccessTokenFromDatabase::new(),
-        logs_provider: LogsFromRemoteFile {
-            url: "https://tonsser-prod-file-uploads.s3-eu-west-1.amazonaws.com/uploads/af50726397f580ca73d1-wtf".to_string()
-        },
-        thread_count: get_thread_count_from_args(),
-        run_for: duration,
-        host: "http://api.tonsser.com".to_string(),
-    }.run();
+    // let duration = Duration::from_secs(60);
+
+    // InstantReplay {
+    //     access_token_loader: LoadAccessTokenFromDatabase::new(),
+    //     logs_provider: LogsFromRemoteFile {
+    //         url: "https://tonsser-prod-file-uploads.s3-eu-west-1.amazonaws.com/uploads/af50726397f580ca73d1-wtf".to_string()
+    //     },
+    //     thread_count: get_thread_count_from_args(),
+    //     run_for: duration,
+    //     host: "http://api.tonsser.com".to_string(),
+    // }.run();
 }
