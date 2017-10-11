@@ -1,0 +1,6 @@
+[package]
+name = "replay-traffic-from-logs"
+version = "0.1.0"
+authors = ["davidpdrsn"]
+
+[dependencies]
