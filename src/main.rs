@@ -78,7 +78,10 @@ impl AccessTokenLoader for LoadAccessTokenFromDatabase {
 fn main() {
     dotenv().ok();
 
-    let duration = Duration::from_secs(60);
+    let duration = Duration::from_secs(
+        env::var("DURATION").unwrap().parse().unwrap()
+        );
+
     InstantReplay {
         access_token_loader: LoadAccessTokenFromDatabase::new(),
         logs_provider: LogsFromRemoteFile {
