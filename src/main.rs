@@ -4,6 +4,7 @@ extern crate postgres;
 use instant_replay::{get_thread_count_from_args, AccessTokenLoader, InstantReplay};
 use instant_replay::logs_provider::{LogsFromRemoteFile};
 use std::time::Duration;
+use std::env;
 use postgres::{Connection, TlsMode};
 use std::collections::HashMap;
 
@@ -59,10 +60,9 @@ impl AccessTokenLoader for LoadAccessTokenFromDatabase {
 }
 
 fn main() {
-    println!("Hello, World!");
+    println!("{:?}", env::var("DATABASE_URL"));
 
     // let duration = Duration::from_secs(60);
-
     // InstantReplay {
     //     access_token_loader: LoadAccessTokenFromDatabase::new(),
     //     logs_provider: LogsFromRemoteFile {
