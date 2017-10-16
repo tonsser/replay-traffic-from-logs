@@ -17,8 +17,10 @@ struct LoadAccessTokenFromDatabase {
 
 impl LoadAccessTokenFromDatabase {
     fn new() -> Self {
+        let db_url = env::var("DATABASE_URL").expect("Missing DATABASE_URL env var");
+
         let connection = Connection::connect(
-            "postgres://postgres@localhost/tonsser-api_development",
+            db_url,
             TlsMode::None,
             ).expect("failed to connect");
         LoadAccessTokenFromDatabase {
@@ -64,7 +66,9 @@ impl AccessTokenLoader for LoadAccessTokenFromDatabase {
 fn main() {
     dotenv().ok();
 
-    println!("{:?}", env::var("DATABASE_URL"));
+    let mut x = LoadAccessTokenFromDatabase::new();
+    let token = x.access_token_from_user_slug(&"david-pedersen".to_string());
+    println!("{:?}", token);
 
     // let duration = Duration::from_secs(60);
     // InstantReplay {
