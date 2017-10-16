@@ -2,4 +2,5 @@
 set -e
 
 cargo check
+git push
 git push heroku master
