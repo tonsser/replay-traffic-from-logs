@@ -75,18 +75,14 @@ impl AccessTokenLoader for LoadAccessTokenFromDatabase {
 fn main() {
     dotenv().ok();
 
-    let mut x = LoadAccessTokenFromDatabase::new();
-    let token = x.access_token_from_user_slug(&"david-pedersen".to_string());
-    println!("{:?}", token);
-
-    // let duration = Duration::from_secs(60);
-    // InstantReplay {
-    //     access_token_loader: LoadAccessTokenFromDatabase::new(),
-    //     logs_provider: LogsFromRemoteFile {
-    //         url: "https://tonsser-prod-file-uploads.s3-eu-west-1.amazonaws.com/uploads/af50726397f580ca73d1-wtf".to_string()
-    //     },
-    //     thread_count: get_thread_count_from_args(),
-    //     run_for: duration,
-    //     host: "http://api.tonsser.com".to_string(),
-    // }.run();
+    let duration = Duration::from_secs(60);
+    InstantReplay {
+        access_token_loader: LoadAccessTokenFromDatabase::new(),
+        logs_provider: LogsFromRemoteFile {
+            url: "https://tonsser-prod-file-uploads.s3-eu-west-1.amazonaws.com/uploads/af50726397f580ca73d1-wtf".to_string()
+        },
+        thread_count: get_thread_count_from_args(),
+        run_for: duration,
+        host: "http://api.tonsser.com".to_string(),
+    }.run();
 }
