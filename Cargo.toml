@@ -7,3 +7,4 @@ authors = ["davidpdrsn"]
 instant-replay = { git = "https://github.com/tonsser/instant-replay.git" }
 postgres = { version = "0.15", features = ["with-openssl"] }
 dotenv = "0.10.1"
+openssl = "0.9.19"

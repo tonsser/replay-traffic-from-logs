@@ -1,6 +1,7 @@
 extern crate instant_replay;
 extern crate dotenv;
 extern crate postgres;
+extern crate openssl;
 
 use instant_replay::{get_thread_count_from_args, AccessTokenLoader, InstantReplay};
 use instant_replay::logs_provider::{LogsFromRemoteFile};
@@ -10,6 +11,9 @@ use postgres::{Connection, TlsMode};
 use std::collections::HashMap;
 use dotenv::dotenv;
 
+use openssl::ssl::{SslMethod, SslConnectorBuilder, SSL_VERIFY_NONE};
+use postgres::tls::openssl::OpenSsl;
+
 struct LoadAccessTokenFromDatabase {
     connection: Connection,
     cache: HashMap<String, String>,
@@ -17,12 +21,17 @@ struct LoadAccessTokenFromDatabase {
 
 impl LoadAccessTokenFromDatabase {
     fn new() -> Self {
+        let mut connector = SslConnectorBuilder::new(SslMethod::tls()).unwrap();
+        connector.builder_mut().set_verify(SSL_VERIFY_NONE);
+        let openssl = OpenSsl::from(connector.build());
+
         let db_url = env::var("DATABASE_URL").expect("Missing DATABASE_URL env var");
 
         let connection = Connection::connect(
             db_url,
-            TlsMode::None,
+            TlsMode::Prefer(&openssl),
             ).expect("failed to connect");
+
         LoadAccessTokenFromDatabase {
             connection: connection,
             cache: HashMap::new(),

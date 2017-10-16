@@ -4,6 +4,7 @@ version = "0.1.0"
 dependencies = [
  "dotenv 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "instant-replay 0.1.0 (git+https://github.com/tonsser/instant-replay.git)",
+ "openssl 0.9.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "postgres 0.15.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
