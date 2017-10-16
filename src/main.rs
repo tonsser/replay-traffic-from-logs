@@ -41,12 +41,15 @@ impl LoadAccessTokenFromDatabase {
 
 impl AccessTokenLoader for LoadAccessTokenFromDatabase {
     fn access_token_from_user_slug(&mut self, user_slug: &String) -> Option<String> {
-        println!("{}", user_slug);
-
         match self.cache.get(user_slug) {
-            Some(token) => return Some(token.clone()),
+            Some(token) => {
+                println!("hit: {}", user_slug);
+                return Some(token.clone());
+            }
             _ => (),
         }
+
+        println!("miss: {}", user_slug);
 
         let mut token = None;
 
