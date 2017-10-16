@@ -82,7 +82,7 @@ fn main() {
     InstantReplay {
         access_token_loader: LoadAccessTokenFromDatabase::new(),
         logs_provider: LogsFromRemoteFile {
-            url: "https://tonsser-prod-file-uploads.s3-eu-west-1.amazonaws.com/uploads/af50726397f580ca73d1-wtf".to_string()
+            url: env::var("LOGS_FILE").unwrap()
         },
         thread_count: get_thread_count_from_args(),
         run_for: duration,
