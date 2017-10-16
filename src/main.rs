@@ -1,4 +1,5 @@
 extern crate instant_replay;
+extern crate dotenv;
 extern crate postgres;
 
 use instant_replay::{get_thread_count_from_args, AccessTokenLoader, InstantReplay};
@@ -7,6 +8,7 @@ use std::time::Duration;
 use std::env;
 use postgres::{Connection, TlsMode};
 use std::collections::HashMap;
+use dotenv::dotenv;
 
 struct LoadAccessTokenFromDatabase {
     connection: Connection,
@@ -60,6 +62,8 @@ impl AccessTokenLoader for LoadAccessTokenFromDatabase {
 }
 
 fn main() {
+    dotenv().ok();
+
     println!("{:?}", env::var("DATABASE_URL"));
 
     // let duration = Duration::from_secs(60);
