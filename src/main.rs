@@ -83,7 +83,7 @@ fn main() {
     let args = Args::parse_from_commandline_args()
         .expect("Failed parsing cmd line args");
 
-    InstantReplay {
+    let total_requests: usize = InstantReplay {
         access_token_loader: LoadAccessTokenFromDatabase::new(),
         logs_provider: LogsFromRemoteFile {
             url: env::var("LOGS_FILE").unwrap()
@@ -92,4 +92,9 @@ fn main() {
         run_for: args.duration,
         host: "http://api.tonsser.com".to_string(),
     }.run();
+
+    let minutes: f64 = (args.duration.as_secs() as f64) / 60.0;
+    println!("minutes: {:?}", minutes);
+    println!("requests: {:?}", total_requests);
+    println!("rpm: {:?}", (total_requests as f64) / minutes);
 }

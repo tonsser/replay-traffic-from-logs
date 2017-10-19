@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-thread_count = 800
-duration = 600
+thread_count = 1
+duration = 10
 
 puts "Running benchmark with config:"
 puts "thread_count = #{thread_count}"
