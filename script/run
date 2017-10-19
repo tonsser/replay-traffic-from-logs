@@ -1,4 +1,13 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env ruby
 
-heroku run --size performance-l ./target/release/replay-traffic-from-logs --thread-count 800 --duration 600
+thread_count = 800
+duration = 600
+
+puts "Running benchmark with config:"
+puts "thread_count = #{thread_count}"
+puts "duration = #{duration}"
+
+system "heroku run --size performance-l ./target/release/replay-traffic-from-logs --thread-count #{thread_count} --duration #{duration}"
+
+puts "thread_count = #{thread_count}"
+puts "duration = #{duration}"
