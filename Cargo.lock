@@ -318,7 +318,7 @@ dependencies = [
 [[package]]
 name = "instant-replay"
 version = "0.1.2"
-source = "git+https://github.com/tonsser/instant-replay.git#88c308d76621c00be14f309107a11cfa3e5afa6c"
+source = "git+https://github.com/tonsser/instant-replay.git#1a1a8e739da5e51acd05d59fb3fba14c06f81136"
 dependencies = [
  "futures 0.1.16 (registry+https://github.com/rust-lang/crates.io-index)",
  "hyper 0.11.6 (registry+https://github.com/rust-lang/crates.io-index)",
