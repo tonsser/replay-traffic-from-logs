@@ -5,6 +5,7 @@ Uses <https://github.com/tonsser/instant-replay> to benchmark [api.tonsser.com](
 Configure using these environment variables:
 
 - `LOGS_FILE`: URL of a logs files from the API.
-- `DURATION`: How many seconds to run the benchmark.
 
-Run the benchmark with `heroku run ./target/release/replay-traffic-from-logs THREAD_COUNT --size performance-l`, then check newrelic. A `THREAD_COUNT` of 500 can generate about ~6.000 rpm.
+Run the benchmark with `heroku run --size performance-l ./target/release/replay-traffic-from-logs --thread-count THREAD_COUNT --duration 20`. `--thread-count` is the number of threads to open. `--duration` is the duration to run the script for in seconds.
+
+You can also use `script/run`.

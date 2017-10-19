@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+
+heroku run --size performance-l ./target/release/replay-traffic-from-logs --thread-count 501 --duration 600

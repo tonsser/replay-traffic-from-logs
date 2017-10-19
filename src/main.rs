@@ -2,15 +2,17 @@ extern crate instant_replay;
 extern crate dotenv;
 extern crate postgres;
 extern crate openssl;
+extern crate regex;
 
-use instant_replay::{get_thread_count_from_args, AccessTokenLoader, InstantReplay};
+mod parse_args;
+use parse_args::{Args};
+
+use instant_replay::{AccessTokenLoader, InstantReplay};
 use instant_replay::logs_provider::{LogsFromRemoteFile};
-use std::time::Duration;
 use std::env;
 use postgres::{Connection, TlsMode};
 use std::collections::HashMap;
 use dotenv::dotenv;
-
 use openssl::ssl::{SslMethod, SslConnectorBuilder, SSL_VERIFY_NONE};
 use postgres::tls::openssl::OpenSsl;
 
@@ -78,17 +80,16 @@ impl AccessTokenLoader for LoadAccessTokenFromDatabase {
 fn main() {
     dotenv().ok();
 
-    let duration = Duration::from_secs(
-        env::var("DURATION").unwrap().parse().unwrap()
-        );
+    let args = Args::parse_from_commandline_args()
+        .expect("Failed parsing cmd line args");
 
     InstantReplay {
         access_token_loader: LoadAccessTokenFromDatabase::new(),
         logs_provider: LogsFromRemoteFile {
             url: env::var("LOGS_FILE").unwrap()
         },
-        thread_count: get_thread_count_from_args(),
-        run_for: duration,
+        thread_count: args.thread_count,
+        run_for: args.duration,
         host: "http://api.tonsser.com".to_string(),
     }.run();
 }

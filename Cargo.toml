@@ -8,3 +8,5 @@ instant-replay = { git = "https://github.com/tonsser/instant-replay.git" }
 postgres = { version = "0.15", features = ["with-openssl"] }
 dotenv = "0.10.1"
 openssl = "0.9.19"
+regex = "0.2"
+lazy_static = "0.2.9"
