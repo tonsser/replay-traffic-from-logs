@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
 thread_count = 1
-duration = 10
+minutes = 1.0
+duration = (minutes * 60).round
 
 puts "Running benchmark with config:"
 puts "thread_count = #{thread_count}"

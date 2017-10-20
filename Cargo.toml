@@ -4,9 +4,10 @@ version = "0.1.0"
 authors = ["davidpdrsn"]
 
 [dependencies]
-instant-replay = { git = "https://github.com/tonsser/instant-replay.git" }
-postgres = { version = "0.15", features = ["with-openssl"] }
 dotenv = "0.10.1"
-openssl = "0.9.19"
-regex = "0.2"
+hyper = "0.11"
+instant-replay = { git = "https://github.com/tonsser/instant-replay.git" }
 lazy_static = "0.2.9"
+openssl = "0.9.19"
+postgres = { version = "0.15", features = ["with-openssl"] }
+regex = "0.2"

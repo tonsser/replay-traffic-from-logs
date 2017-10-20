@@ -3,11 +3,12 @@ extern crate dotenv;
 extern crate postgres;
 extern crate openssl;
 extern crate regex;
+#[macro_use] extern crate hyper;
 
 mod parse_args;
 use parse_args::{Args};
 
-use instant_replay::{AccessTokenLoader, InstantReplay};
+use instant_replay::{Request, AccessTokenLoader, InstantReplay, PrepareHttpRequest};
 use instant_replay::logs_provider::{LogsFromRemoteFile};
 use std::env;
 use postgres::{Connection, TlsMode};
@@ -15,6 +16,18 @@ use std::collections::HashMap;
 use dotenv::dotenv;
 use openssl::ssl::{SslMethod, SslConnectorBuilder, SSL_VERIFY_NONE};
 use postgres::tls::openssl::OpenSsl;
+
+header! { (Authorization, "Authorization") => [String] }
+
+#[derive(Copy, Clone)]
+struct SetAuthHeader;
+impl PrepareHttpRequest for SetAuthHeader {
+    fn call(&self, req_def: &Request, mut request: hyper::Request) -> hyper::Request {
+        let auth_header_value = format!("Bearer {}", req_def.access_token);
+        request.headers_mut().set(Authorization(auth_header_value));
+        request
+    }
+}
 
 struct LoadAccessTokenFromDatabase {
     connection: Connection,
@@ -44,14 +57,9 @@ impl LoadAccessTokenFromDatabase {
 impl AccessTokenLoader for LoadAccessTokenFromDatabase {
     fn access_token_from_user_slug(&mut self, user_slug: &String) -> Option<String> {
         match self.cache.get(user_slug) {
-            Some(token) => {
-                println!("hit: {}", user_slug);
-                return Some(token.clone());
-            }
+            Some(token) => return Some(token.clone()),
             _ => (),
         }
-
-        println!("miss: {}", user_slug);
 
         let mut token = None;
 
@@ -88,6 +96,7 @@ fn main() {
         logs_provider: LogsFromRemoteFile {
             url: env::var("LOGS_FILE").unwrap()
         },
+        prepare_http_request: Some(SetAuthHeader),
         thread_count: args.thread_count,
         run_for: args.duration,
         host: "http://api.tonsser.com".to_string(),
