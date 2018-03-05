@@ -3,13 +3,14 @@ extern crate dotenv;
 extern crate postgres;
 extern crate openssl;
 extern crate regex;
-#[macro_use] extern crate hyper;
+#[macro_use]
+extern crate hyper;
 
 mod parse_args;
-use parse_args::{Args};
+use parse_args::Args;
 
 use instant_replay::{Request, AccessTokenLoader, InstantReplay, PrepareHttpRequest};
-use instant_replay::logs_provider::{LogsFromRemoteFile};
+use instant_replay::logs_provider::LogsFromRemoteFile;
 use std::env;
 use postgres::{Connection, TlsMode};
 use std::collections::HashMap;
@@ -36,16 +37,15 @@ struct LoadAccessTokenFromDatabase {
 
 impl LoadAccessTokenFromDatabase {
     fn new() -> Self {
-        let mut connector = SslConnectorBuilder::new(SslMethod::tls()).unwrap();
+        let mut connector =
+            SslConnectorBuilder::new(SslMethod::tls()).expect("SslConnectorBuilder failed");
         connector.builder_mut().set_verify(SSL_VERIFY_NONE);
         let openssl = OpenSsl::from(connector.build());
 
         let db_url = env::var("DATABASE_URL").expect("Missing DATABASE_URL env var");
 
-        let connection = Connection::connect(
-            db_url,
-            TlsMode::Prefer(&openssl),
-            ).expect("failed to connect");
+        let connection = Connection::connect(db_url, TlsMode::Prefer(&openssl))
+            .expect("failed to connect");
 
         LoadAccessTokenFromDatabase {
             connection: connection,
@@ -73,7 +73,9 @@ impl AccessTokenLoader for LoadAccessTokenFromDatabase {
             LIMIT 1
             "#;
 
-        let rows = &self.connection.query(sql, &[&user_slug]).expect("query failed");
+        let rows = &self.connection.query(sql, &[&user_slug]).expect(
+            "query failed",
+        );
 
         for row in rows {
             let users_token: String = row.get("token");
@@ -88,13 +90,12 @@ impl AccessTokenLoader for LoadAccessTokenFromDatabase {
 fn main() {
     dotenv().ok();
 
-    let args = Args::parse_from_commandline_args()
-        .expect("Failed parsing cmd line args");
+    let args = Args::parse_from_commandline_args().expect("Failed parsing cmd line args");
 
     let total_requests: usize = InstantReplay {
         access_token_loader: LoadAccessTokenFromDatabase::new(),
         logs_provider: LogsFromRemoteFile {
-            url: env::var("LOGS_FILE").unwrap()
+            url: env::var("LOGS_FILE").expect("LOGS_FILE env var not there"),
         },
         prepare_http_request: Some(SetAuthHeader),
         thread_count: args.thread_count,

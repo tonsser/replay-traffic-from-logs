@@ -1,16 +1,3 @@
-[root]
-name = "replay-traffic-from-logs"
-version = "0.1.0"
-dependencies = [
- "dotenv 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "hyper 0.11.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "instant-replay 0.2.0 (git+https://github.com/tonsser/instant-replay.git)",
- "lazy_static 0.2.9 (registry+https://github.com/rust-lang/crates.io-index)",
- "openssl 0.9.20 (registry+https://github.com/rust-lang/crates.io-index)",
- "postgres 0.15.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "regex 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
 [[package]]
 name = "advapi32-sys"
 version = "0.2.0"
@@ -623,6 +610,19 @@ version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "futures 0.1.16 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "replay-traffic-from-logs"
+version = "0.1.0"
+dependencies = [
+ "dotenv 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "hyper 0.11.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "instant-replay 0.2.0 (git+https://github.com/tonsser/instant-replay.git)",
+ "lazy_static 0.2.9 (registry+https://github.com/rust-lang/crates.io-index)",
+ "openssl 0.9.20 (registry+https://github.com/rust-lang/crates.io-index)",
+ "postgres 0.15.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "regex 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]

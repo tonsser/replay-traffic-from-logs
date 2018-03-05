@@ -1,4 +1,4 @@
-use std::time::{Duration};
+use std::time::Duration;
 use std::env;
 
 #[derive(Debug)]
@@ -35,20 +35,14 @@ impl Args {
 
 fn parse_thread_count(args: &Vec<String>) -> Option<i32> {
     let idx = index_of_flag(args, "--thread-count");
-    idx.and_then(|idx| {
-        args.get(idx + 1).and_then(|count| {
-            count.parse().ok()
-        })
-    })
+    idx.and_then(|idx| args.get(idx + 1).and_then(|count| count.parse().ok()))
 }
 
 fn parse_duration(args: &Vec<String>) -> Option<Duration> {
     let idx = index_of_flag(args, "--duration");
     idx.and_then(|idx| {
         args.get(idx + 1).and_then(|count| {
-            count.parse().ok().map(|sec| {
-                Duration::from_secs(sec)
-            })
+            count.parse().ok().map(|sec| Duration::from_secs(sec))
         })
     })
 }
@@ -69,8 +63,13 @@ mod tests {
 
     #[test]
     fn it_parses_args_as_a_vector() {
-        let cmd_args = vec!["./path/to/file", "--thread-count", "200", "--duration", "10"]
-            .iter()
+        let cmd_args = vec![
+            "./path/to/file",
+            "--thread-count",
+            "200",
+            "--duration",
+            "10",
+        ].iter()
             .map(ToString::to_string)
             .collect();
         let args = Args::parse_from_vec(&cmd_args).expect("Parse failed");
